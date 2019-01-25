@@ -1,15 +1,15 @@
 
-<p align="center"><a href="https://github.com/tyro-zulip-bot/ai-tweepic" target="_blank" rel="noopener noreferrer"><img width="100" src="https://github.com/tyro-zulip-bot/ai-tweepic/blob/master/assets/logo.png" alt="tryo Bot logo"></a></p>
+<p align="center"><a href="https://github.com/armag-pro/tyro-zulip-bot" target="_blank" rel="noopener noreferrer"><img width="100" src="https://github.com/armag-pro/tyro-zulip-bot/blob/master/assets/logo.png" alt="tryo Bot logo"></a></p>
 
 
 <p align="center">
-<a href="https://github.com/tyro-zulip-bot/ai-tweepic/">
+<a href="https://github.com/armag-pro/tyro-zulip-bot">
     <img src="https://img.shields.io/badge/version-1.1-blue.svg" alt="version 1.1">
 </a>
-<a href="https://github.com/tyro-zulip-bot/ai-tweepic/pulls">
+<a href="https://github.com/armag-pro/tyro-zulip-bot/pulls">
     <img src="https://img.shields.io/badge/PRs-Welome-brightgreen.svg" alt="PRs Welcome">
 </a>
-<a href="https://github.com/tyro-zulip-bot/ai-tweepic/blob/master/LICENSE">
+<a href="https://github.com/armag-pro/tyro-zulip-bot/blob/master/LICENSE">
     <img src="https://img.shields.io/apm/l/vim-mode.svg" alt="License MIT">
 </a>
 </p>
