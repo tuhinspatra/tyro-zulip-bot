@@ -12,6 +12,8 @@ import spellchecker
 import mathbot
 import codeforces
 import wolframbot
+import logging
+import recipe,code_compile,search,quiz,stack_overflow,fb_login,contest
 
 
 zulip_client = zulip.Client(config_file="~/zuliprc")
@@ -51,6 +53,11 @@ class TyroHandler(object):
         recv = msg.split()
 
         ## Hard-coded *********
+        if msg[0:3] == '```':
+            compile_res = code_compile.compile_code(bot_handler,message)
+            bot_handler.send_reply(message,compile_res) 
+            return
+
         if recv[0] == 'site-gist':
             recv = recv[1:]
             if len(recv) == 0:
@@ -90,7 +97,11 @@ class TyroHandler(object):
             return
         
         if recv[0] == "contests":
-            bot_handler.send_reply(message, codeforces.get_contest_list())
+            if len(recv) == 1 or recv[1] == 'codeforces':
+                bot_handler.send_reply(message, codeforces.get_contest_list())
+            else:
+                contest_msg = contest.get_contest(bot_handler,recv[1])
+                bot_handler.send_reply(message,contest_msg)
             return
 
         if recv[0] == "evaluate":
@@ -105,7 +116,33 @@ class TyroHandler(object):
             bot_handler.send_reply(
                 message, wolframbot.get_short_answer(sentence))
             return
-
+        data = recv
+        query = data[0]
+        if query == "recipe": 
+            recipe_res = recipe.get_recipe(bot_handler,data)
+            bot_handler.send_reply(message,recipe_res['url'])
+            bot_handler.send_reply(message,recipe_res['recipe'])
+            return
+        if query == "quiz":
+            bot_handler.storage.put("a","1")
+            bot_handler.send_reply(message,"**enter <no of question> <topic> <difficulty level>**\n")
+            return
+        if bot_handler.storage.contains("a") and bot_handler.storage.get("a")==str(1):
+            bot_handler.send_reply(message,quiz.quiz_content(bot_handler,data))
+            return
+        if query == "book" or query == "google":
+            search_res = search.get_result(bot_handler,data)
+            bot_handler.send_reply(message,search_res)                
+            return
+        if query == "stackoverflow":
+            word_search = ' '.join(data[1:])
+            stack_result = stack_overflow.get_bot_stackoverflow_response(word_search)
+            bot_handler.send_reply(message,stack_result)
+            return
+        if query=="login":
+            msg = fb_login.fblogin(bot_handler,data[1:])
+            bot_handler.send_reply(message,msg)
+            return
         ## end of hard-coded *********
 
         storage = bot_handler.storage

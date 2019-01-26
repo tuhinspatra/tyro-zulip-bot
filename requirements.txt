@@ -72,6 +72,7 @@ twine==1.12.1
 typed-ast==1.1.2
 typing==3.6.6
 urllib3==1.24.1
+watson-developer-cloud
 wcwidth==0.1.7
 webencodings==0.5.1
 Werkzeug==0.14.1
@@ -79,6 +80,7 @@ wit==5.1.0
 zulip==0.5.7
 zulip-bots==0.5.7
 zulip-botserver==0.5.7
+selenium
 -e ./zulip
 -e ./zulip_bots
 -e ./zulip_botserver
