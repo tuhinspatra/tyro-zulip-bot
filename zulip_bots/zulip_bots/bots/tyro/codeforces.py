@@ -24,10 +24,10 @@ def get_contest_list():
         else:
             remTime = -contest['relativeTimeSeconds']
             duration = contest['durationSeconds']
-            ret = ret+contest['name']+'\n'
-            ret = ret+"Duration" + \
+            ret = ret+"* "+contest['name']+'\n'
+            ret = ret+" Duration" + \
                 (str(datetime.timedelta(seconds=duration)))+'\n'
-            ret = ret+"Starts in: " + \
+            ret = ret+" Starts in: " + \
                 str(datetime.timedelta(seconds=remTime))+'\n\n\n'
     # bot_handler.send_reply(message,ret)
     return ret

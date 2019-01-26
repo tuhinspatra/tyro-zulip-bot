@@ -14,8 +14,8 @@ from typing import Dict, Any
 
 
 def evaluate_all_expression(data):
-    if data[1] == "evaluate":
-        expressions = data[2:]
+    if data[0] == "evaluate":
+        expressions = data[1:]
         query = {"expr": expressions, "precision": 10}
         endpoint = "http://api.mathjs.org/v4/"
         response = requests.post(endpoint, data=json.dumps(query))
@@ -28,6 +28,6 @@ def evaluate_all_expression(data):
             ret = ""
             for ans in answers['result']:
                 ret = ret+ans+'\n\n'
-            return ret
+            return "```math\n"+ret+"\n```"
             # bot_handler.send_reply(message,ret)
 # handler_class = mathHandler
