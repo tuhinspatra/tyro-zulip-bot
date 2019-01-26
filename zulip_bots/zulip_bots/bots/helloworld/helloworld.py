@@ -1,57 +1,46 @@
 from typing import Any, Dict
 import zulip
-client = zulip.Client(config_file="~/zuliprc")
+zulip_client = zulip.Client(config_file="~/zuliprc")
 
-from clarifai.rest import ClarifaiApp
 from aylienapiclient import textapi
-
 client = textapi.Client("976cfa13", "b05f5525c81dd2a6551388ef411e1e52")
 
+
+from clarifai.rest import ClarifaiApp
 app = ClarifaiApp(api_key='5ddc332a7d3a4683aec7f28731d5dd86')
 model = app.public_models.general_model
+
 import requests
 from random import randint, seed, shuffle
 seed()
 
+import dialogflow_v2 as dialogflow
 
-def detect_intent_texts(project_id, session_id, text, language_code) -> str:
+def detect_intent_texts(project_id, session_id, text, language_code):
     """Returns the result of detect intent with texts as inputs.
 
     Using the same `session_id` between requests allows continuation
     of the conversation."""
 
-    import dialogflow_v2 as dialogflow
     session_client = dialogflow.SessionsClient()
 
     session = session_client.session_path(project_id, session_id)
-
-
     text_input = dialogflow.types.TextInput(
         text=text, language_code=language_code)
 
     query_input = dialogflow.types.QueryInput(text=text_input)
-
     response = session_client.detect_intent(
         session=session, query_input=query_input)
-    if response.query_result.intent.display_name == 'explain':
-        print('###VOILA!!')
-    return response.query_result.fulfillment_text
-    print('Session path: {}\n'.format(session))
-    # Session path: projects/zulip-bot/agent/sessions/unique
-    print('Query text: {}'.format(response.query_result.query_text))
-    print('Detected intent: {} (confidence: {})\n'.format(
-        response.query_result.intent.display_name,
-        response.query_result.intent_detection_confidence))
-    print('Fulfillment text: {}\n'.format(
-        response.query_result.fulfillment_text))
-
+    if response is None:
+        return None
+    return response.query_result
 
 
 class HelloWorldHandler(object):
     _token = ''
     _ans = -1
     def usage(self) -> str:
-        return '''armag's ai bot'''
+        return '''tyro: the AI Bot'''
 
     def start_game(self, message: Dict[str, Any], bot_handler: Any) -> None:
         '''used by instagram picture quiz'''
@@ -81,12 +70,47 @@ class HelloWorldHandler(object):
         
 
     def handle_message(self, message: Dict[str, Any], bot_handler: Any) -> None:
-        recv = message['content'].strip().split()
-        if recv[0] == 'explain':
+        # if the particular idea can be implemented using intents and entities
+        storage = bot_handler.storage
+        cur_cmd = ''
+        msg = message['content'].strip()
+        response = detect_intent_texts(
+            'zulip-bot', 'unique', msg, 'en')
+        if response.intent.display_name == 'exit':
+            bot_handler.send_reply(message, response.fulfillment_text)
+            return
+        if storage.contains('cur_cmd'):
+            cur_cmd = storage.get('cur_cmd')
+        recv = msg.split()
+        if cur_cmd == '':
+            response = detect_intent_texts(
+                'zulip-bot', 'unique', msg, 'en')
+            if response is None:
+                bot_handler.send_reply(
+                    message, 'I am sorry but I couldn\'t get that!')
+                return
+            intent = response.intent.display_name
+            if intent == 'explain':
+                cur_cmd = 'explain'
+                bot_handler.send_reply(message, 'specify text to explain:')
+                storage.put('cur_cmd', cur_cmd)
+                return
+            elif intent == 'exit':
+                bot_handler.send_reply(message, 'Sure!')
+                cur_cmd = ''
+                storage.put('cur_cmd', cur_cmd)
+                return
+            else:
+                bot_handler.send_reply(message, response.fulfillment_text)
+                return
+
+
+        if cur_cmd == 'explain':
             ''' given a paragraph gets concepts then summarizes the contents of 
             the links returned in concepts '''
-            recv = recv[1:]
-            text = "Apple was founded by Steve Jobs, Steve Wozniak and Ronald Wayne."
+            if msg == '':
+                text = "Apple was founded by Steve Jobs, Steve Wozniak and Ronald Wayne."
+            else: text = msg
             concepts = client.Concepts({"text": text})
             output = ''
             cnt = 1
@@ -99,6 +123,7 @@ class HelloWorldHandler(object):
                 output += '\n'
                 cnt += 1
             bot_handler.send_reply(message, output)
+            return
         elif recv[0] == 'site-gist':
             recv = recv[1:] 
             if len(recv) == 0:
