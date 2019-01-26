@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.insert(0, os.getcwd())
+
 from typing import Any, Dict
 import zulip
 zulip_client = zulip.Client(config_file="~/zuliprc")
