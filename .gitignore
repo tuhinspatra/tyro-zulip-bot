@@ -34,6 +34,7 @@ htmlcov/
 .pydevproject
 
 # Ignore virtualenvs created by ./tools/provision
+env
 zulip-api-py*-venv
 
 # Automatically generated MANIFEST.in in zulip_bots
@@ -57,3 +58,9 @@ botserverrc
 # Pycharm
 \.DS_Store
 \.idea/
+
+# vs code
+.vscode
+
+.ipynb_checkpoints
+
