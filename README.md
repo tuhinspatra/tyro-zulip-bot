@@ -1,5 +1,5 @@
 
-<p align="center"><a href="https://github.com/armag-pro/tyro-zulip-bot" target="_blank" rel="noopener noreferrer"><img width="100" src="https://github.com/armag-pro/tyro-zulip-bot/blob/master/assets/logo.png" alt="tryo Bot logo"></a></p>
+<p align="center"><a href="https://github.com/armag-pro/tyro-zulip-bot" target="_blank" rel="noopener noreferrer"><img width="200" src="https://github.com/armag-pro/tyro-zulip-bot/blob/master/assets/logo.png" alt="tryo Bot logo"></a></p>
 
 
 <p align="center">
@@ -48,7 +48,7 @@ Congrats! Your bot is running.
 
 ## Contributors
 * **Tuhin Subhra Patra** - [armag-pro](https://github.com/armag-pro)
-* **Bavishi Milan** - [jarvis-dev](https://github.com/jarvis-dev)
+* **Bavishi Milan** - [jarvisdev](https://github.com/jarvisdev)
 * **Jugta Ram** - [jugtaram](https://github.com/jugtaram)
 
 ## License
