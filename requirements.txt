@@ -75,7 +75,7 @@ urllib3==1.24.1
 watson-developer-cloud
 wcwidth==0.1.7
 webencodings==0.5.1
-Werkzeug==0.14.1
+Werkzeug==0.15.3
 wit==5.1.0
 zulip==0.5.7
 zulip-bots==0.5.7
