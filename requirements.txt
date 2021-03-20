@@ -32,7 +32,7 @@ html2text==2018.1.9
 httplib2==0.12.0
 idna==2.8
 itsdangerous==1.1.0
-Jinja2==2.10
+Jinja2==2.11.3
 jsonschema==2.6.0
 lxml==4.3.0
 MarkupSafe==1.1.0
