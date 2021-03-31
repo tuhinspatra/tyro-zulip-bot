@@ -34,7 +34,7 @@ idna==2.8
 itsdangerous==1.1.0
 Jinja2==2.10
 jsonschema==2.6.0
-lxml==4.3.0
+lxml==4.6.3
 MarkupSafe==1.1.0
 matrix-client==0.3.2
 mock==2.0.0
